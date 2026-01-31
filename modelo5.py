@@ -271,8 +271,8 @@ def init_db():
     else:
         print("La tabla Cat está vacía")
 
-    os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
-    os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
+    #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
+    #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
     db.create_all()
 
     # ---------------- Crear categorías ----------------
