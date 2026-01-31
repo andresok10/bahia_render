@@ -1,5 +1,5 @@
 from imports import *
-#from modelo5 import *
+from modelo5 import *
 load_dotenv()
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.getenv("SECRET_KEY")
