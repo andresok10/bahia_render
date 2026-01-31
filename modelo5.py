@@ -165,15 +165,10 @@ def init_db():
     #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
     db.create_all()
 
-    #[db.session.add(Cat(name=x)) for x in ["mujer", "hombre", "niño", "niña"] if not Cat.query.filter_by(name=x).first()]
+    [db.session.add(Cat(name=x)) for x in ["mujer", "hombre", "niño", "niña"] if not Cat.query.filter_by(name=x).first()]
     #for x in ["mujer", "hombre", "niño", "niña"]:
     #    if not cat.query.filter_by(nombre=x).first():
     #        db.session.add(cat(nombre=x))
-    # 1️⃣ Agregar categorías primero
-    categorias = ["mujer", "hombre", "niño", "niña"]
-    for nombre in categorias:
-        if not Cat.query.filter_by(name=nombre).first():
-            db.session.add(Cat(name=nombre))
     db.session.commit()  # importante antes de agregar Subcat
     ####################################################
     lista_usuarios =[
