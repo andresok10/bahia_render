@@ -1,0 +1,33 @@
+<div id="productos" style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;">
+{% for a in arts_id %}
+<div style="display:block;text-align:center;">
+    <a href="{{ url_for('fun_ini.detallesx', id=a.id) }}">
+        <img class="img_galeria" src="{{ url_for('static', filename=a.img1) }}">
+    </a>
+    <div style="display:flex;gap:20px;justify-content:center;">
+        <p>{{ a.name }}</p>
+        <p>${{ a.precio }} USD</p>
+        <p>stock {{ a.stock }}</p>
+    </div>
+
+    {% if session.get("admin") %}
+    <form hx-post="{{ url_for('fun_ini.addx') }}" hx-target="#cart-counter" hx-swap="innerHTML" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="prod_id_form" value="{{ a.id }}">
+        <input type="hidden" name="cantidad" value="1">
+        <button class="boton1" type="submit">
+            <img style="width:25px;height:20px" src="{{ url_for('static', filename='iconos/carrito.png') }}">
+            Agregar
+        </button>
+    </form>
+    {% else %}
+    <a href="{{ url_for('fun_user.loginx') }}">
+        <button class="boton1">
+            <img style="width:25px;height:20px" src="{{ url_for('static', filename='iconos/carrito.png') }}">
+            Agregar
+        </button>
+    </a>
+    {% endif %}
+</div>
+{% endfor %}
+</div>

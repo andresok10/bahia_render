@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+</head>
+
+<body>
+
+    <div style="text-align:center;">
+        <h1>Carrito de Compras</h1>
+
+        <!--{% if msg %}
+        <p style="color:red;"><b>{{ msg }}</b></p>
+        {% endif %}-->
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for m in messages %}
+            <p style="color:red;">{{ m }}</p>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+
+        <table border="1" cellpadding="8" cellspacing="0" style="margin:auto;">
+            <thead>
+                <tr>
+                    <th>Img</th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>IVA</th>
+                    <th>Total</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>
+                        <img style="width:80px;height:80px;" src="{{ url_for('static', filename=item.img1) }}">
+                    </td>
+
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.namexx }}</td>
+                    <td>${{ "%.2f"|format(item.precio) }}</td>
+
+                    <td>
+                        <!-- UPDATE REAL -->
+                        <form action="{{ url_for('fun_ini.ver_carritox') }}" method="post">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="prod_id_form" value="{{ item.id }}">
+                            <!--<input type="hidden" name="accion" value="update">-->
+                            <!--<input type="hidden" name="accion" value="view">-->
+
+                            <input type="number" name="cantidad" value="{{ item.cantidad }}" min="1"
+                                style="width:60px;">
+
+                            <button type="submit">Actualizar</button>
+                        </form>
+                    </td>
+
+                    <td>${{ "%.2f"|format(item.precio * item.cantidad * 0.12) }}</td>
+                    <td>${{ "%.2f"|format(item.precio * item.cantidad * 1.12) }}</td>
+
+                    <td>
+                        <a href="{{ url_for('fun_ini.remove_from_cart', product_id=item.id) }}">❌</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Total: ${{ "%.2f"|format(total) }}</h2>
+
+        <form action="{{ url_for('fun_ini.pagarx') }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="submit" value="Pagar">
+        </form>
+
+        <br>
+
+        <h2>
+            <a href="{{ url_for('fun_ini.iniciox') }}">Seguir comprando</a>
+        </h2>
+    </div>
+
+</body>
+
+</html>
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1>Carrito de Compras</h1>
+       
+        <table style="display: flex; justify-content: center;">
+            <tr>
+                <th>img</th>
+                <th>id</th>
+                <th>nombre</th>
+                <th>precio</th>
+                <th style="width:5px;">+</th>
+                <th>cant</th>
+                <th>iva</th>
+                <th>p + iva</th>
+                <th>Eliminar</th>
+            </tr>
+            <p>{{msg}}</p>
+            {% for item in cart %}
+            <tr>
+                <td>
+                    {% if item.id==1 %}
+                    <img style="width:80px;height: 80px;" src="{{url_for('static',filename='images/img-ropa/mujer/blusas-chaquetas-abrigos/') }}{{item.img1}}">
+                    {% elif item.id==2 %}
+                    <img style="width:80px;height: 80px;" src="{{url_for('static',filename='images/img-ropa/mujer/blusas-chaquetas-abrigos/') }}{{item.img1}}">
+                    {% endif %}
+                </td>     
+                <td>{{ item.id }}</td>
+                <td>{{ item.nombre }}</td>
+                <td>{{ "{:.2f}".format(item.precio) }}</td>  Precio unitario 
+                <td style="width:25px;text-align: center;">
+                    <form action="/carrito" method="post"> 
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <input type="hidden" name="product" value="{{ item.id }}">
+                        <input style="width:25px" type="number" name="cantidad" value="{{ item.cantidad }}" min="1" max="{{ item.stock }}">
+                        <button style="width:50px" type="submit">update</button>
+                    </form>
+                </td>
+                <td>{{ item.stock }}</td>
+                <td>{{ "{:.2f}".format(item.precio * item.cantidad * 0.12) }}</td>  IVA calculado -
+                <td>{{ "{:.2f}".format(item.precio * item.cantidad * 1.12) }}</td> -- Precio total con IVA
+                <td>
+                    <a href="/remove_from_cart/{{ item.id }}">
+                        <img style="width:25px;height:20px;margin-left:1px;" src="{{url_for('static',filename='images/logos-iconos/borrar1.png')}}" title="borrar">
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <h2>Total: ${{ "{:.2f}".format(total) }}</h2>
+        <br>
+        <form action="/pagar" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <input type="submit" value="Pagar" />
+        </form>
+        <br>
+        <h2><a href="/">Seguir comprando</a></h2>
+    </div>
+</body>
+</html>-->

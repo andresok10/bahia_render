@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+</head>
+
+<body>
+
+    <div style="text-align:center;">
+        <h1>Carrito de Compras</h1>
+
+        <!--{% if msg %}
+        <p style="color:red;"><b>{{ msg }}</b></p>
+        {% endif %}-->
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for m in messages %}
+            <p style="color:red;">{{ m }}</p>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+
+        <table border="1" cellpadding="8" cellspacing="0" style="margin:auto;">
+            <thead>
+                <tr>
+                    <th>Img</th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>IVA 12%</th>
+                    <th>SubTotal</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>
+                        <img style="width:80px;height:80px;" src="{{ url_for('static', filename=item.img1) }}">
+                    </td>
+
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>${{ item.precio_unitario }}</td>
+
+                    <td>
+                        <!-- UPDATE REAL -->
+                        <form action="{{ url_for('fun_ini.ver_carritox') }}" method="post">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="prod_id_form" value="{{ item.id }}">
+                            <!--<input type="hidden" name="accion" value="update">-->
+                            <!--<input type="hidden" name="accion" value="view">-->
+
+                            <input type="number" name="cantidad" value="{{ item.cantidad }}" min="1"
+                                style="width:60px;">
+
+                            <button type="submit">Actualizar</button>
+                        </form>
+                    </td>
+
+                    <td>{{ item.iva }}</td>
+                    <td>{{ item.subtotal }}</td>
+
+                    <td>
+                        <a href="{{ url_for('fun_ini.remove_from_cart', product_id=item.id) }}">❌</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!--<h2>Total_iva: ${{ iva }}</h2>
+        <h2>subtotal ${{ subtotal }}</h2>-->
+        <h2>Total a Pagar: $ {{ total_a_pagar }}</h2>
+    
+        <form action="{{ url_for('fun_ini.pagarx') }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="submit" value="Pagar">
+        </form>
+
+        <br>
+
+        <h2>
+            <a href="{{ url_for('fun_ini.iniciox') }}">Seguir comprando</a>
+        </h2>
+    </div>
+
+</body>
+
+</html>

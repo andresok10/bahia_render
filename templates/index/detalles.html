@@ -1,0 +1,51 @@
+{% extends "index/base.html" %}
+{% block content2 %}
+<!--##############################################################################-->
+<h1 style="text-align: center;">Detalles del Producto</h1>
+
+<!-- Mostrar el mensaje de error si existe -->
+{% if msg %}
+<div class="alerta">
+    {{ msg }}
+</div>
+{% endif %}
+
+<div style="display:block;justify-content: center;text-align: center;">
+    <div>
+        <img id="b_image" style="width:250px;height:250px;" src="{{ url_for('static', filename=product.img1) }}">
+    </div>
+
+    <div style="display: flex;text-align: center;gap:20px;justify-content: center;">
+        <p>{{product.name}}</p>
+        <p>$ {{product.precio}}</p>
+        <p>stock disponible: {{product.stock}}</p>
+    </div>
+    <div style="text-align: center;">
+        <p>{{product.info}}</p>
+        <p>promocion 2 x 1</p>
+    </div>
+
+    <!--<form method="post" action="{{ url_for('fun_ini.addx') }}">-->
+    <form hx-post="{{ url_for('fun_ini.addx') }}" hx-target="#cart-counter" hx-swap="innerHTML" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <!--<input type="hidden" name="accion" value="add">-->
+        <input type="hidden" name="prod_id_form" value="{{ product.id }}">
+        <input type="hidden" name="cantidad" min="1" max="{{ product.stock }}" value="1">
+        <button type="submit">Agregar al carrito</button>
+    </form>
+
+</div>
+
+<div style="display:flex;justify-content: center;align-items: center" id="s_image">
+    <img src="{{ url_for('static', filename=product.img1) }}" width="100" height="100">
+    <img src="{{ url_for('static', filename=product.img2) }}" width="100" height="100">
+    <img src="{{ url_for('static', filename=product.img3) }}" width="100" height="100">
+</div>
+
+<!-- Botón para volver a la lista de productos de la subcategoría que tenias-->
+<div style="text-align: center;">
+    <a href="{{ url_for('fun_ini.iniciox', catidx=product.subcat.catid, subcatidx=product.subcatid) }}">Volver</a>
+    <!--<a href="{{ url_for('fun_ini.iniciox') }}">← Volver</a>-->
+</div>
+<!--##################################################################################################################################-->
+{% endblock %}

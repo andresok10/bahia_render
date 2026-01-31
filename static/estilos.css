@@ -1,0 +1,215 @@
+* {text-decoration:none;list-style:none;outline:none;padding:0px 0px;margin:0px 0px;}
+/*##########################################################################*/
+.contenedor1{display: flex;width:100%;text-align: center;}
+.cont_nav{width:78%;display: flex;margin: 5px 0px;justify-content: flex-end;}
+.cont_nav a{margin:0px 10px;}
+.img_nav{width: 35px;height: 40px;border-radius:10px;}
+
+.cont_logo{width:20%;font-size: 35px;margin-left: 20px;}
+/*##########################################################################*/
+.cat{display: flex;width:100%;text-align: center;justify-content: center;}
+.a_cat{font-size: 20px;margin-right:30px;}
+/*##########################################################################*/
+.subcat{display:flex;width:100%;text-align:center;justify-content:center;margin-top:10px;flex-wrap: wrap;}
+.img-subcat{width:80px;height:50px;border-radius:10px;margin-right:10px;}
+/*##########################################################################*/
+.subcat_mas{display:flex;background-color: aquamarine;justify-content: center;text-align: center;} /*flex-wrap: wrap;*/
+.img_subcat_mas{width:120px;height:98px;margin:0px 5px;}
+.pp_subcat_mas{background-color: black;color:white;text-align:center;}
+/*##########################################################################*/
+        
+.precio{font-size:14px;}
+
+.a_contenedor{display:flex;justify-content: center;}
+.a{display:flex;width:30%;justify-content:end;background-color: aqua;align-items: center;}
+.cajita_a{display:block;align-items: center;}
+.a1{display:flex;width:350px;height:60px;margin-bottom:5px;text-align: center;justify-content: center;align-items: center;border-radius:20px; background-color: rgb(107, 230, 158);}
+
+.aa{display:none;width:100%;justify-content:center;background-color: aqua;align-items: center;}
+.cajita_aa{display:flex;align-items: center;}
+.aa1{display:flex;width:350px;height:60px;margin-bottom:5px;text-align: center;justify-content: center;align-items: center;border-radius:20px; background-color: rgb(107, 230, 158);}
+.img_aa1{width:80px;height:60px;}
+.p_aa1{font-size:20px;margin-right:10px;}
+
+.slider{width:450px;text-align: center;overflow: hidden;margin-left:5px;margin-right:5px;}
+.slider ul {width:400%; text-align: center;display: flex;animation: slide 15s infinite linear;}
+.img_slider{width:450px; height:250px;margin:0px 0px}
+.slider .img_slider {width:100%;text-align: center;}
+            @keyframes slide {
+                0% {margin-left: 0;}
+                20% {margin-left: 0;}
+                25% {margin-left: -100%;}
+                45% {margin-left: -100%;}
+                50% {margin-left: -200%;}
+                70% {margin-left: -200%;}
+                75% {margin-left: -300%;}
+                100% {margin-left: -300%;}
+            }
+
+/*##########*/
+.c{display:flex;width:30%;background-color: aquamarine;justify-content: center;flex-wrap: wrap;text-align: center;}
+.img_c{width:160px;height:100px;margin:0px 3px;}
+
+.ventas{display:flex;width:68%;background-color: rgb(223, 233, 84);justify-content: center;flex-wrap: wrap;text-align: center;}
+    .img_ventas{display:flex;width:250px;height:200px;margin:0px 5px;}
+
+.ofertas2{display:flex;width:68%;background-color: rgb(240, 196, 196);justify-content: center;flex-wrap: wrap;text-align: center;}
+    .img_ofertas2{display:flex;width:250px;height:200px;margin:0px 5px;}
+
+.recien_llegados{display:flex;width:68%;background-color: #9ef1b0;justify-content: center;flex-wrap: wrap;text-align: center;}
+    .img_r_llegados{display:flex;width:250px;height:200px;margin:0px 5px;}
+
+        .c3_contenedor{display: block;text-align: center;}
+        .c3{display: flex;width:100%;justify-content: center;text-align: center;}
+        .cajita_c3{display:flex;;margin:0px 10px;}
+        .img_c3{display:flex;width:250px;height:200px;margin:0px 2px;}
+
+/**/
+.cont_galeria{display: flex;width: 100%;justify-content: center;height:auto;flex-wrap: wrap;}
+.caja_galeria{margin:0px 10px;margin-bottom: 10px;}
+.datos_producto{display: flex;text-align: center;gap:20px;justify-content: center;}
+.img_galeria{width:350px; height:220px;margin-top:5px;}
+/**/
+
+        @media screen and (max-width:1400px){
+            .a{width:35%;}
+            .slider{}
+            .img_slider{width:350px;}
+            .c{width:35%;}
+    
+            .ventas{width:85%;}
+            .ofertas2{width:85%;}
+            .img_r_llegadosxxxxx{width:140px;}
+            .recien_llegados{width:85%;}
+        }
+
+        @media screen and (max-width:1224px){
+            .a{width:35%;}
+            .c{width:35%;}
+    
+            .ventas{width:90%;}
+            .ofertas2{width:90%;}
+            .img_r_llegadosxxxxx{width:140px;}
+            .recien_llegados{width:90%;}
+        }
+
+        @media screen and (max-width:1155px){
+            .a{width:35%;}
+            .c{display: none;}
+    
+            .ventas{width:98%;}
+            .ofertas2{width:98%;}
+            .img_r_llegadosxxxxx{width:140px;}
+            .recien_llegados{width:98%;}
+        }
+
+        @media screen and (max-width:1061px){
+            .a{width:35%;}
+    
+            .ventas{width:100%;}
+            .ofertas2{width:100%;}
+            .img_r_llegadosxxxxx{width:140px;}
+            .recien_llegados{width:100%;}
+        }
+
+        @media screen and (max-width:1061px){
+            .a{width:35%;}
+    
+            .ventas{width:90%;}
+            .img_ventas{width:180px;}
+            .ofertas2{width:90%;}
+            .img_ofertas2{width:180px;}
+            .recien_llegados{width:90%;}
+            .img_r_llegados{width:180px;}
+        }
+
+        @media screen and (max-width:844px){
+            .a{display: none;}
+    
+            .ventas{width:95%;}
+            .img_ventas{width:180px;}
+            .ofertas2{width:95%;}
+            .img_ofertas2{width:180px;}
+            .recien_llegados{width:95%;}
+            .img_r_llegados{width:180px;}
+        }
+
+        @media screen and (max-width:800px){
+            .ventas{width:98%;}
+            .img_ventas{width:180px;}
+            .ofertas2{width:98%;}
+            .img_ofertas2{width:180px;}
+            .recien_llegados{width:98%;}
+            .img_r_llegados{width:180px;}
+        }
+
+        @media screen and (max-width:775px){
+            .ventas{width:100%;}
+            .img_ventas{width:180px;}
+            .ofertas2{width:100%;}
+            .img_ofertas2{width:180px;}
+            .recien_llegados{width:100%;}
+            .img_r_llegados{width:180px;}
+        }
+
+        @media screen and (max-width:759px){
+            .img_ventas{width:170px;}
+            .img_ofertas2{width:170px;}
+            .img_r_llegados{width:170px;}
+        }
+
+        @media screen and (max-width:719px){
+            .img_ventas{width:160px;}
+            .img_ofertas2{width:160px;}
+            .img_r_llegados{width:160px;}
+        }
+
+        @media screen and (max-width:679px){
+            .img_ventas{width:150px;}
+            .img_ofertas2{width:150px;}
+            .img_r_llegados{width:150px;}
+        }
+
+        @media screen and (max-width:639px){
+            .img_ventas{width:140px;}
+            .img_ofertas2{width:140px;}
+            .img_r_llegados{width:140px;}
+        }
+
+        @media screen and (max-width:599px){
+            .img_ventas{width:130px;}
+            .img_ofertas2{width:130px;}
+            .img_r_llegados{width:130px;}
+        }
+
+        @media screen and (max-width:559px){
+            .img_ventas{width:120px;}
+            .img_ofertas2{width:120px;}
+            .img_r_llegados{width:120px;}
+        }
+
+        @media screen and (max-width:519px){
+            .titulo{font-size:20px;width:200px;}
+            .a_cat{font-size:18px;}
+            .cont_nav{margin: 5px 0px;}
+            .cont_nav a{margin:0px 5px;}
+            .img_nav{width: 30px;height:30px;}
+
+            .slider{width:100%;height:200px;;margin-left:0px;margin-right:0px;}
+            .img_slider{height:200px}
+
+            .img-subcat{width:70px;}
+            .img_subcat_mas{height:150px;margin:2px;}
+
+            .img_ventas{width:115px;}
+            .img_ofertas2{width:115px;}
+            .img_r_llegados{width:115px;}
+
+            .caja_galeria{margin:0px 2px;}
+            .img_galeria{width:250px;}
+
+        }
+
+        @media screenxxxxxxx and (max-width:515px){
+        
+        }

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <title>Document</title>
+    <!--<link rel="stylesheet" href="/static/style.css">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+    <div class="cont_nav">
+        <div class="subcont_nav">
+            <div class="subcont_nav_div1">
+                <p class="titulo"><b>Bahia.com</b></p>
+                <input class="subcont_nav_input" placeholder="buscar" type="hidden">
+            </div>
+
+            <div class="subcont_nav_div2">
+                {% if session["admin"]==True %}
+                <a href="/registro">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/logo-u.jpg')}}">
+                </a>
+                <!--<a href="/articulos">
+                <img class="img_nav" src="{{url_for('static',filename='iconos/anadir-producto.png')}}">
+            </a>-->
+
+                <a href="/categoria">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/categoria4.png')}}">
+                </a>
+
+                <a href="/perfil">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/perfil1.jpg')}}">
+                </a>
+
+                <a href="/historial_pedidos">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/pedido.jpg')}}">
+                </a>
+
+                <a href="{{ url_for('fun_user.cerrarx') }}">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/cerrar1.png')}}">
+                </a>
+
+                <a class="subcont_nav_a" href="/ver_carrito">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/carrito.png')}}">
+                    <p class="subcont_nav_p_carrito">
+                        <span id="cart-counter">{{ session.get('carrito', [])|length }}</span>
+                    </p>
+                </a>
+
+                {% elif session["admin"]==False %}
+
+                <a href="/perfil">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/perfil1.jpg')}}">
+                </a>
+
+                <a href="/historial_pedidos">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/pedido.jpg')}}">
+                </a>
+
+                <a href="/cerrar">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/cerrar1.png')}}">
+                </a>
+
+                <a class="subcont_nav_a" href="/ver_carrito">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/carrito.png')}}">
+                    <p class="subcont_nav_p_carrito">
+                        <span id="cart-counter">{{ session.get('carrito', [])|length }}</span>
+                    </p>
+                </a>
+
+                {% else %}
+                <a href="{{ url_for('fun_user.loginx') }}">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/login.png')}}"
+                        title="Login / Register">
+                </a>
+                <a href="/historial_pedidos">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/favorito.png')}}">
+                </a>
+
+                <a class="subcont_nav_a" href="/ver_carrito">
+                    <img class="img_nav" src="{{url_for('static',filename='iconos/carrito.png')}}">
+                    <p class="subcont_nav_p_carrito">
+                        <span id="cart-counter">{{ session.get('carrito', [])|length }}</span>
+                    </p>
+                </a>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!--##############################################################################-->
+    <!--##############################################################################-->
+
+    <!--<div class="cat">
+        {% for c in cat_all %}
+        <a class="a_cat" href="{{ url_for('fun_ini.iniciox', catidx=c.id) }}">
+            {{ c.name }}
+        </a>
+        {% endfor %}
+    </div>-->
+
+    <div class="cat">
+        {% for c in cat_all %}
+        <a class="a_cat" hx-get="{{ url_for('fun_ini.iniciox', catidx=c.id, subcatidx=0) }}" hx-target="#productos"
+            hx-swap="innerHTML">
+            {{ c.name }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <!--#########################-->
+    {% block content1 %}
+    {% endblock %}
+    {% block content2 %}
+    {% endblock %}
+    <!--##########################################################################################-->
+    <div style="display: flex;gap: 15px;flex-wrap: wrap;justify-content: center;margin-top:50px;">
+        <a href="productos/producto1.html">
+            <img style="width:360px; height: 200px;margin:0px 0px"
+                src="{{url_for('static',filename='iconos/slider1.png')}}">
+            <p>PYTHON</p>
+        </a>
+        <a href="productos/producto1.html">
+            <img style="width:360px; height: 200px;margin:0px 0px"
+                src="{{url_for('static',filename='/iconos/slider1.png')}}">
+            <p>PYTHON</p>
+        </a>
+        <a href="productos/producto1.html">
+            <img style="width:360px; height: 200px;margin:0px 0px"
+                src="{{url_for('static',filename='/iconos/slider1.png')}}">
+            <p>PYTHON</p>
+        </a>
+    </div>
+
+    <main>
+        <br>
+        <div
+            style="display: grid;grid-template-columns: repeat(12, 1fr);background: gold;width: 100%;height: 100%;align-items: center;">
+            <div style="grid-column: 4/10;text-align: center;">
+                <h1>ACERCA DE:</h1>
+                <p>Somos un grupo de trabajadores con la mas alta capacidad de realizar postres de calidad, Lorem, ipsum
+                    dolor sit amet consectetur adipisicing elit. Distinctio qui eveniet laboriosam nulla dignissimos
+                    quisquam nemo, reprehenderit sapiente aut earum? Quas exercitationem necessitatibus ab corrupti
+                    voluptate temporibus magnam! Saepe, esse.</p>
+            </div>
+        </div>
+        <br>
+    </main>
+
+    <div style="text-align: center;width: 100%;color: rgb(202, 187, 187);">
+        <h1>contactame</h1>
+        <p> TE apreciamos mucho</p>
+        <p>Solo llamanos y te recibimos muy amablemente para que hagas un pedido de tu postre preferido sin novedad.</p>
+        <br>
+        <form style="text-align: center;" method="" action="">
+            <label>NOMBRE</label>
+            <br>
+            <input style="width:300px;border: 5px solid #7ac000;font-size: 20px;text-align: center;padding:8px;"
+                type="text" placeholder="ingresa tu nombre" />
+            <br>
+            <label>Email</label>
+            <br>
+            <input style="width:300px;border: 5px solid #7ac000;font-size: 20px;text-align: center;padding: 8px;"
+                type="text" placeholder="ingresa tu email" />
+            <br>
+            <label>COMENTARIO</label>
+            <br>
+            <textarea style="width:300px;border: 5px solid #7ac000;font-size: 20px;text-align: center;padding:8px;"
+                placeholder="ingresa texto" tabindex="4"></textarea>
+            <br>
+            <input type="submit" value="ENVIAR" />
+        </form>
+        <br>
+        <br>
+    </div>
+
+    <div style="text-align: center;width: 100%;font-size: 15px;color: rgb(192, 177, 177);">
+        <br>
+        <h2>Email</h2>
+        <h2>gdave0930&copy;gmail.com</h2>
+        <h2>Localizacion</h2>
+        <img style="width:30px;height:20px;" src="{{url_for('static',filename='images/iconos/zapato1.png')}}">
+        <h2>via perimetral trinipuerto alado del tia</h2>
+        <img style="width:30px;height:20px;" src="{{url_for('static',filename='images/iconos/zapato2.jpg')}}">
+        <h1>Diseñado por &copy;Deybi Garcia</h1>
+        <p>&copy; 2024 Tienda en Línea. Todos los derechos reservados.</p>
+        <br>
+        <br>
+    </div>
+
+    <script>
+        function changeColor(button) {
+            button.classList.toggle("clicked");
+        }
+
+        function changeColorxxx(button) {
+            button.classList.toggle("clicked");
+            // Obtener el formulario padre del botón
+            var form = button.closest(".formx");
+            // Obtener el input oculto que contiene el ID del producto
+            var productInput = form.querySelector("input[name='product']");
+            // Obtener el valor del input
+            var productId = productInput.value;
+
+            // Verificar si el botón tiene la clase 'clicked'
+            if (button.classList.contains("clicked")) {
+                // Si el botón tiene la clase 'clicked', agregar el producto al carrito
+                console.log("Agregar producto al carrito con ID:", productId);
+                // Aquí puedes agregar la lógica para agregar el producto al carrito usando AJAX o un formulario de envío, según tu implementación
+            } else {
+                // Si el botón no tiene la clase 'clicked', quitar el producto del carrito
+                console.log("Quitar producto del carrito con ID:", productId);
+                // Aquí puedes agregar la lógica para quitar el producto del carrito usando AJAX o un formulario de envío, según tu implementación
+            }
+        }
+
+        ///////////////////////////////////////////
+
+
+        var b_image = document.getElementById('b_image'); // Imagen principal
+        var s_image = document.getElementById('s_image').getElementsByTagName('img'); // Miniaturas
+
+        for (var i = 0; i < s_image.length; i++) {
+            s_image[i].addEventListener('click', full_image); // Evento click en cada miniatura
+        }
+
+        function full_image() {
+            var ImageSRC = this.getAttribute('src'); // Obtener el src de la miniatura
+            //b_image.innerHTML = "<img src=" + ImageSRC + " width='400' height='400'>"; no vale
+            b_image.setAttribute('src', ImageSRC); // Cambiar el src de la imagen principal
+            b_image.setAttribute('width', '400'); // Opcional: actualizar tamaño
+            b_image.setAttribute('height', '400'); // Opcional: actualizar tamaño
+        }
+
+    </script>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            const token = document.querySelector('input[name="csrf_token"]')?.value;
+            if (token) {
+                event.detail.headers['X-CSRFToken'] = token;
+            }
+        });
+    </script>
+
+</body>
+
+</html>

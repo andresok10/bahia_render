@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% if accion=="login" %}Login{% elif accion=="registro" %}Registro{% else %}Perfil{% endif %}
+    </title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .contenedor {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .formx {
+            width: 400px;
+            text-align: center;
+            background-color: #1E90FF;
+            padding: 30px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .inputx {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .boton {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .perfil {
+            text-align: left;
+            background-color: #87CEFA;
+            padding: 20px;
+            border-radius: 10px;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor">
+        {% if accion=="login" or accion=="registro" %}
+        <form class="formx" action="" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <h2>{{ "Login" if accion=="login" else "Registro de Usuario" }}</h2>
+
+            {% if msg %}
+            <p style="color:yellow">{{ msg }}</p>
+            {% endif %}
+
+            {% if accion == "registro" %}
+            <input class="inputx" type="text" name="ced_ruc" placeholder="Cédula o RUC" required>
+            <input class="inputx" type="text" name="name" placeholder="Nombre" required>
+            <input class="inputx" type="email" name="email" placeholder="Email" required>
+            {% endif %}
+
+            <input class="inputx" type="text" name="user" placeholder="Usuario" required>
+            <input class="inputx" type="password" name="passs" placeholder="Contraseña" required>
+
+            {% if accion == "registro" and session.get("admin") == 1 %}
+            <label>
+                <input type="checkbox" name="admin" value="1"> Dar permisos de Admin
+            </label>
+            {% elif accion == "registro" %}
+            <input type="hidden" name="admin" value="0">
+            {% endif %}
+
+            <input class="boton" type="submit" value="{{ 'Ingresar' if accion=='login' else 'Registrar' }}">
+
+            <p style="margin-top:15px;">
+                {% if accion == "login" %}
+                ¿No tienes cuenta? <a href="/registro" style="color:yellow">Regístrate</a>
+                {% else %}
+                ¿Ya tienes cuenta? <a href="/login" style="color:yellow">Ingresa</a>
+                {% endif %}
+            </p>
+        </form>
+
+        {% elif accion=="perfil" %}
+        <div class="formx perfil">
+            <h2>Perfil de Usuario</h2>
+            <p><strong>Cédula / RUC:</strong> {{ cuenta.ced_ruc }}</p>
+            <p><strong>Nombre:</strong> {{ cuenta.name }}</p>
+            <p><strong>Usuario:</strong> {{ cuenta.user }}</p>
+            <p><strong>Email:</strong> {{ cuenta.email }}</p>
+            <p><strong>Admin:</strong> {{ "Sí" if cuenta.admin==1 else "No" }}</p>
+
+            <!-- Por ejemplo, dentro del perfil del usuario -->
+            <!-- Enlace para cambiar contraseña -->
+            <a href="{{ url_for('fun_user.perfilx', accion='cambiar_pass') }}">
+                Cambiar Contraseña
+            </a>
+
+            <a class="boton" href="/login" style="text-decoration:none; display:block;">Cerrar Sesión</a>
+        </div>
+
+        {% elif accion=="cambiar_pass" %}
+        <div class="formx perfil">
+            <h2>Cambiar Contraseña</h2>
+
+            {% if msg %}
+            <p style="color:yellow">{{ msg }}</p>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('fun_user.perfilx', accion='cambiar_pass') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <input class="inputx" type="password" name="passs" placeholder="Nueva Contraseña" required>
+                <input class="boton" type="submit" value="Actualizar Contraseña">
+            </form>
+
+            <p style="margin-top:10px;">
+                <a href="{{ url_for('fun_user.perfilx') }}" style="color:white; text-decoration:none;">Volver al
+                    perfil</a>
+            </p>
+        </div>
+
+        {% endif %}
+
+
+    </div>
+</body>
+
+</html>

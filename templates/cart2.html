@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        h1{height: 100px;}
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+    
+    <h1>Carrito de Compras</h1>
+   
+    <table style="display: flex;justify-content: center;">
+       
+        <tr>
+            <th>img</th>
+            <th>id</th>
+            <th>nombre</th>
+            <th>precio</th>
+            <th style="width:5px;">+</th>
+            <th>cant</th>
+            <th>iva</th>
+            <th>p + iva</th>
+        </tr>
+        <p>{{msg}}</p>
+        {% for item in cart %}
+        <tr>
+            <td>
+            {% if item.id==1 %}
+            <img style="width:80px;height: 80px;" src="{{url_for('static',filename='images/img-ropa/mujer/blusas-chaquetas-abrigos/') }}{{item.img1}}">
+            {% endif %}
+
+            {% if item.id==2 %}
+            <img style="width:80px;height: 80px;" src="{{url_for('static',filename='images/img-ropa/mujer/blusas-chaquetas-abrigos/') }}{{item.img1}}">
+            {% endif %}
+
+            </td>     
+            <td>{{ item.id }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.precio }}</td>
+            <td style="width:25px;text-align: center;">
+                
+                <form action="/carrito" method="post"> <!--carrito--> <!--add-->
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                    <input type="hidden" name="product" value="{{ item.id }}">
+                        <!--<input type="hidden" name="id" value="id">-->
+                        <!--<input type="hidden" name="id" value = "1">-->
+                        <input style="width:25px" type="number" name="cantidad" value="1" min="1" max="9">
+                        <button style="width:50px" type="submit">update</button>
+                </form>
+            </td>
+            <td>{{ item.stock }}</td>
+            <td> {{ "{:.2f}".format(item.precio*item.stock * 12/100) }} </td>
+            <td> {{ "{:.2f}".format(item.precio*item.stock + (item.precio*item.stock * 12/100))}} </td>
+
+            <!--<td><form action="/remove_from_cart/{{ item.id }}" method="post">
+                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                <input type="submit" value="xxx">
+                </form>
+            </td>-->
+            <td>
+                <a href="/remove_from_cart/{{ item.id }}">
+                    <img style="width:25px;height:20px;margin-left:1px;"
+                        src="{{url_for('static',filename='images/logos-iconos/borrar1.png')}}" title="borrar">
+                </a>
+            </td>
+            
+        </tr>
+        {% endfor %}
+       
+    </table>
+    
+
+    <h2>Total: ${{  "{:.2f}".format(total) }}</h2>
+    <br>
+    <a href="/pagar">pagar</a>
+
+    <form action="/pagar" method="post">
+        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+        <input type="submit" value="pagar" />
+    </form>
+   
+    <br>
+    <h2><a href="/">Seguir comprando</a></h2>
+
+</div>
+</body>
+</html>

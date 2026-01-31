@@ -1,0 +1,108 @@
+{% extends "index/base.html" %}
+{% block content1 %}
+
+<div class="cont_123_flex">
+    <div class="cont_123_block">
+        <div class="cont_123_block2">
+            <p style="font-size:16px;"><b>Recien llegados</b></p>
+            <div style="display:flex;gap:5px;justify-content: center;">
+                <img class="img_x" src="{{ url_for('static', filename='iconos/slider1.png') }}">
+                <img class="img_x" src="{{ url_for('static', filename='iconos/slider1.png') }}">
+            </div>
+        </div>
+        <div class="cont_123_block2">
+            <p style="font-size:16px;"><b>Recien llegados</b></p>
+            <div style="display:flex;gap:5px;justify-content: center;">
+                <img class="img_x" src="{{ url_for('static', filename='iconos/slider1.png') }}">
+                <img class="img_x" src="{{ url_for('static', filename='iconos/slider1.png') }}">
+            </div>
+        </div>
+    </div>
+
+    <div class="cont_img40">
+        <ul>
+            <img class="img_slider" src="{{ url_for('static', filename='iconos/slider1.png') }}">
+            <img class="img_slider" src="{{ url_for('static', filename='iconos/slider1.png') }}">
+        </ul>
+    </div>
+
+    <div class="cont_123_block3">
+        <div class="cont_123_block33">
+            <p style="font-size:16px;"><b>Super Ofertas</b></p>
+            <div style="display:flex;gap:5px;justify-content: center;flex-wrap: wrap;">
+                <div style="display:block;text-align:center;">
+                    <img class="img_ofertas_1" src="{{ url_for('static', filename='subcat_mujer_icon/1blusa2.jpg') }}">
+                    <p style="font-size:13px;">$20</p>
+                </div>
+                <img class="img_ofertas_1" src="{{ url_for('static', filename='subcat_mujer_icon/2.webp') }}">
+                <img class="img_ofertas_1" src="{{ url_for('static', filename='subcat_mujer_icon/3.webp') }}">
+                <img class="img_ofertas_1" src="{{ url_for('static', filename='subcat_mujer_icon/4.webp') }}">
+                <img class="img_ofertas_1" src="{{ url_for('static', filename='subcat_mujer_icon/5.jpg') }}">
+                <img class="img_ofertas_1" src="{{ url_for('static', filename='subcat_mujer_icon/vestido4.jpg') }}">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="subcat_adicional">
+    <div class="caja_subcat_adicional">
+        <img class="img_ofertas2" src="{{ url_for('static', filename='1subcat_mujer/diario/vestido4.jpg') }}">
+        <p class="pp_subcat_adicional">De Diario</p>
+    </div>
+    <div class="caja_subcat_adicional">
+        <img class="img_ofertas2" src="{{ url_for('static', filename='1subcat_mujer/vacaciones/7.jpg') }}">
+        <p class="pp_subcat_adicional">Vacaciones</p>
+    </div>
+    <div class="caja_subcat_adicional">
+        <img class="img_ofertas2" src="{{ url_for('static', filename='1subcat_mujer/trabajo/8.webp') }}">
+        <p class="pp_subcat_adicional">Trabajo</p>
+    </div>
+    <div class="caja_subcat_adicional">
+        <img class="img_ofertas2" src="{{ url_for('static', filename='1subcat_mujer/playa/4.webp') }}">
+        <p class="pp_subcat_adicional">Playa</p>
+    </div>
+    <div class="caja_subcat_adicional">
+        <img class="img_ofertas2" src="{{ url_for('static', filename='1subcat_mujer/fiesta/vestido5.jpg') }}">
+        <p class="pp_subcat_adicional">Fiesta</p>
+    </div>
+</div>
+
+<!--<div class="subcat">
+    {% if cat_id and cat_id.subcats %}
+    {% for x in cat_id.subcats %}
+    <a href="{{ url_for('fun_ini.iniciox', catidx=cat_id.id, subcatidx=x.id) }}">
+        <img class="img-cat" src="{{ url_for('static', filename=x.img_subcat) }}">
+        <p style="display:block;width:70px;font-size:12px">{{ x.name }}</p>
+    </a>
+    {% endfor %}
+    {% endif %}
+</div>-->
+
+<!--<div class="subcat">
+    {% if cat_id and cat_id.subcats %}
+    {% for x in cat_id.subcats %}
+    <a hx-get="{{ url_for('fun_ini.iniciox', catidx=cat_id.id, subcatidx=x.id) }}" hx-target="#productos"
+        hx-swap="innerHTML">
+        <img class="img-cat" src="{{ url_for('static', filename=x.img_subcat) }}">
+        <p>{{ x.name }}</p>
+    </a>
+    {% endfor %}
+    {% endif %}
+</div>-->
+
+<div class="subcat">
+    {% for x in cat_id.subcats %}
+    <a hx-get="{{ url_for('fun_ini.iniciox', catidx=cat_id.id, subcatidx=x.id) }}" hx-target="#productos"
+        hx-swap="innerHTML">
+        <img class="img-cat" src="{{ url_for('static', filename=x.img_subcat) }}">
+        <p>{{ x.name }}</p>
+    </a>
+    {% endfor %}
+</div>
+
+<!-- div productos ya se renderiza normalmente -->
+<div id="productos">
+    {% include "index/_productos.html" %}
+</div>
+
+{% endblock %}

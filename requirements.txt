@@ -1,0 +1,12 @@
+flask
+Flask-WTF
+flask-sqlalchemy
+sqlalchemy
+werkzeug
+stripe
+reportlab
+pymysql
+#psycopg2
+#mysqlclient
+#gunicorn
+#psycopg2-binary

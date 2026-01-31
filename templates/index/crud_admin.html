@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Admin</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif} 
+body{margin:6px;background:#f4f6f9}
+
+.panel{display:flex;gap:6px;width:100%}
+.bloque{flex:1;min-width:0;background:#fff;border:1px solid #cbd3dd;padding:4px}
+
+h4{margin:2px 0 4px;font-size:12px}
+
+form.inline{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+form.inline.edit{background:#fff6d6;border:1px solid #e0b400;padding:6px}
+
+input{padding:4px 6px;font-size:12px;width:100%}
+button,a.btn{
+    padding:4px 6px;
+    font-size:12px;
+    cursor:pointer;
+    border:1px solid #ccc;
+    background:#eee;
+    text-decoration:none;
+    color:#000;
+}
+
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th,td{
+    padding:4px 6px;
+    font-size:12px;
+    border-bottom:1px solid #ddd;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+th{background:#f1f3f6;text-align:left}
+
+.col-precio{width:60px}
+.col-acciones{width:70px}
+
+.acciones{display:flex;gap:4px}
+.acciones a,.acciones button{
+    border:none;background:none;font-size:12px;cursor:pointer
+}
+.edit{color:#005eff}
+.del{color:#c40000}
+.cancel{color:#555}
+
+/* Filas clickeables */
+td.clickable:hover{background:#eef4ff;cursor:pointer}
+
+/* Fila seleccionada */
+tr.selected td.clickable {
+    background-color: #d6eaff;
+}
+</style>
+</head>
+<body>
+<div class="panel">
+
+<!-- ================= CATEGORIAS ================= -->
+<div class="bloque">
+<h4>Categorías</h4>
+<form class="inline {% if edit_cat %}edit{% endif %}" method="POST"
+      action="{{ url_for('fun_art.editar_categoria', id=edit_cat.id) if edit_cat else url_for('fun_art.categoriax') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input name="name" placeholder="Categoría" value="{{ edit_cat.name if edit_cat else '' }}" required>
+    <button type="submit">{{ 'Actualizar' if edit_cat else 'Crear' }}</button>
+    {% if edit_cat %}
+        <a class="btn cancel" href="{{ url_for('fun_art.categoriax') }}">Cancelar</a>
+    {% endif %}
+</form>
+
+<table>
+<thead><tr><th>Nombre</th><th class="col-acciones">Acc</th></tr></thead>
+<tbody>
+{% for c in categorias %}
+<tr class="{% if categoria and categoria.id == c.id %}selected{% endif %}">
+<td class="clickable" data-url="{{ url_for('fun_art.categoriax') }}?cat_id={{ c.id }}">{{ c.name }}</td>
+<td class="acciones">
+    <a class="edit" href="{{ url_for('fun_art.editar_categoria', id=c.id) }}" onclick="event.stopPropagation();">✏</a>
+    <form method="POST" action="{{ url_for('fun_art.eliminar_categoria', id=c.id) }}" style="display:inline;" onclick="event.stopPropagation();">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="del" type="submit">✕</button>
+    </form>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+<!-- ================= SUBCATEGORIAS ================= -->
+<div class="bloque">
+<h4>Subcategorías</h4>
+{% if categoria %}
+<form class="inline {% if edit_subcat %}edit{% endif %}" method="POST"
+      action="{{ url_for('fun_art.editar_subcategoria', id=edit_subcat.id) if edit_subcat else url_for('fun_art.subcatx', cat_id=categoria.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input name="name" placeholder="Subcategoría" value="{{ edit_subcat.name if edit_subcat else '' }}" required>
+    <input name="img_subcat" placeholder="URL imagen" value="{{ edit_subcat.img_subcat if edit_subcat else '' }}" required>
+    <button type="submit">{{ 'Actualizar' if edit_subcat else 'Crear' }}</button>
+    {% if edit_subcat %}
+        <a class="btn cancel" href="{{ url_for('fun_art.subcatx', cat_id=categoria.id) }}">Cancelar</a>
+    {% endif %}
+</form>
+
+<table>
+<thead><tr><th>Nombre</th><th class="col-acciones">Acc</th></tr></thead>
+<tbody>
+{% for s in categoria.subcats %}
+<tr class="{% if subcategoria and subcategoria.id == s.id %}selected{% endif %}">
+<td class="clickable" data-url="{{ url_for('fun_art.subcatx', cat_id=categoria.id) }}?subcat_id={{ s.id }}">{{ s.name }}</td>
+
+<td class="acciones">
+    <a class="edit" href="{{ url_for('fun_art.editar_subcategoria', id=s.id) }}" onclick="event.stopPropagation();">✏</a>
+    <form method="POST" action="{{ url_for('fun_art.eliminar_subcategoria', id=s.id) }}" style="display:inline;" onclick="event.stopPropagation();">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="del" type="submit">✕</button>
+    </form>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endif %}
+</div>
+
+<!-- ================= ARTICULOS ================= -->
+<div class="bloque">
+<h4>Artículos</h4>
+{% if subcategoria %}
+<form class="inline {% if edit_articulo %}edit{% endif %}" method="POST"
+      action="{{ url_for('fun_art.editar_articulo', id=edit_articulo.id) if edit_articulo else url_for('fun_art.articulox', subcat_id=subcategoria.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input name="name" placeholder="Artículo" value="{{ edit_articulo.name if edit_articulo else '' }}" required>
+    <input name="precio" placeholder="$" value="{{ edit_articulo.precio if edit_articulo else '' }}" required>
+    <input name="img1" placeholder="Imagen 1" value="{{ edit_articulo.img1 if edit_articulo else '' }}">
+    <input name="img2" placeholder="Imagen 2" value="{{ edit_articulo.img2 if edit_articulo else '' }}">
+    <input name="img3" placeholder="Imagen 3" value="{{ edit_articulo.img3 if edit_articulo else '' }}">
+    <button type="submit">{{ 'Actualizar' if edit_articulo else 'Crear' }}</button>
+    {% if edit_articulo %}
+        <a class="btn cancel" href="{{ url_for('fun_art.articulox', subcat_id=subcategoria.id) }}">Cancelar</a>
+    {% endif %}
+</form>
+
+<table>
+<thead><tr><th>Nombre</th><th class="col-precio">$</th><th class="col-acciones">Acc</th></tr></thead>
+<tbody>
+{% for a in articulos %}
+
+<tr class="{% if art_id == a.id %}selected{% endif %}">
+<td class="clickable" data-url="{{ url_for('fun_art.articulox', subcat_id=subcategoria.id) }}?art_id={{ a.id }}">{{ a.name }}</td>
+<td>{{ a.precio }}</td>
+<td class="acciones">
+    <a class="edit" href="{{ url_for('fun_art.editar_articulo', id=a.id) }}" onclick="event.stopPropagation();">✏</a>
+    <form method="POST" action="{{ url_for('fun_art.eliminar_articulo', id=a.id) }}" style="display:inline;" onclick="event.stopPropagation();">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="del" type="submit">✕</button>
+    </form>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cells = document.querySelectorAll('td.clickable');
+    cells.forEach(function(td) {
+        td.addEventListener('click', function() {
+            window.location = this.dataset.url;
+        });
+    });
+});
+</script>
+</body>
+</html>
