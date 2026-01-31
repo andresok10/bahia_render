@@ -159,14 +159,22 @@ arts = [
 #print(len(arts))
 
 def init_db():
-    os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
-    os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
+    #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
+    #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
+    #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
+    #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
     db.create_all()
 
-    [db.session.add(Cat(name=x)) for x in ["mujer", "hombre", "niño", "niña"] if not Cat.query.filter_by(name=x).first()]
+    #[db.session.add(Cat(name=x)) for x in ["mujer", "hombre", "niño", "niña"] if not Cat.query.filter_by(name=x).first()]
     #for x in ["mujer", "hombre", "niño", "niña"]:
     #    if not cat.query.filter_by(nombre=x).first():
     #        db.session.add(cat(nombre=x))
+    # 1️⃣ Agregar categorías primero
+    categorias = ["mujer", "hombre", "niño", "niña"]
+    for nombre in categorias:
+        if not Cat.query.filter_by(name=nombre).first():
+            db.session.add(Cat(name=nombre))
+    db.session.commit()  # importante antes de agregar Subcat
     ####################################################
     lista_usuarios =[
         ["09991" ,"dave1x","dave1","qqww","ok1@gmail.com",1],
@@ -175,7 +183,7 @@ def init_db():
     for xx in lista_usuarios:
         if not Usuario.query.filter_by(ced_ruc=xx[0]).first():
             db.session.add(Usuario(ced_ruc=xx[0], name=xx[1], user=xx[2], passs=xx[3], email=xx[4], admin=xx[5]))
-
+    db.session.commit()
     ##########################################################
     for nombre, icono, catid in lista_subcat_icons:
         # ruta base por categoría
@@ -188,7 +196,7 @@ def init_db():
 
         if not Subcat.query.filter_by(name=nombre, catid=catid).first():
             db.session.add(Subcat(name=nombre,img_subcat=ruta,catid=catid))
-
+    db.session.commit()
     ###################################################################
     lista_mujer = ["1blusas","2faldas","3pantalon","4chaquetas_abrigos","5vestidos","6tbaño","7short","8conjuntos","9trabajo","10zapatos","11accesorios","12maquillaje"]
     lista_hombre = ["1camisas","2pantalon","3abrigos","4chaquetas","5trajes","6tbaño","7gorras","8zapatos","9accesorios"]
@@ -217,7 +225,7 @@ def init_db():
                 )
             )
     db.session.commit()
-    db.session.close()
+    #db.session.close()
 
 """
 Cuando el usuario finaliza su compra, puedes usar este método para agregar los productos al pedido y guardarlos:
