@@ -158,7 +158,7 @@ arts = [
 ]
 #print(len(arts))
 
-def init_db():
+'''def init_db():
     # Contar registros en la tabla Cat
     if Cat.query.count() > 0:
         print("La tabla Cat tiene datos")
@@ -170,11 +170,16 @@ def init_db():
     #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
     db.create_all()
 
-    [db.session.add(Cat(name=x)) for x in ["mujer", "hombre", "niño", "niña"] if not Cat.query.filter_by(name=x).first()]
+    #[db.session.add(Cat(name=x)) for x in ["mujer", "hombre", "niño", "niña"] if not Cat.query.filter_by(name=x).first()]
     #for x in ["mujer", "hombre", "niño", "niña"]:
     #    if not cat.query.filter_by(nombre=x).first():
     #        db.session.add(cat(nombre=x))
-    db.session.commit()  # importante antes de agregar Subcat
+    #db.session.commit()  # importante antes de agregar Subcat
+    cat = Cat.query.filter_by(name="Mujer").first()
+    if not cat:
+        cat = Cat(name="Mujer")
+        db.session.add(cat)
+        db.session.commit()
     ####################################################
     lista_usuarios =[
         ["09991" ,"dave1x","dave1","qqww","ok1@gmail.com",1],
@@ -185,7 +190,7 @@ def init_db():
             db.session.add(Usuario(ced_ruc=xx[0], name=xx[1], user=xx[2], passs=xx[3], email=xx[4], admin=xx[5]))
     db.session.commit()
     ##########################################################
-    '''for nombre, icono, catid in lista_subcat_icons:
+    for nombre, icono, catid in lista_subcat_icons:
         # ruta base por categoría
         if catid == 1:
             ruta = f"subcat_mujer_icon/{icono}"
@@ -196,7 +201,9 @@ def init_db():
 
         if not Subcat.query.filter_by(name=nombre, catid=catid).first():
             db.session.add(Subcat(name=nombre,img_subcat=ruta,catid=catid))
-    db.session.commit()'''
+    db.session.commit()
+
+    subcat = Subcat.query.filter_by(name="Blusas", catid=cat.id).first()
     cats = {c.name: c.id for c in Cat.query.all()}
 
     for nombre, icono, catid in lista_subcat_icons:
@@ -244,8 +251,97 @@ def init_db():
                     subcatid=subcatid
                 )
             )
-    db.session.commit()
+            articulo = Articulos(
+                subcatid=subcat.id,
+                name="ok1",
+                precio=10.22,
+                info="xxx",
+                img1="1mujer/1blusas/blusa1.1.webp",
+                img2="1mujer/1blusas/blusa1.2.webp",
+                img3="1mujer/1blusas/blusa3.jpg",
+                stock=2
+            )
+            db.session.add(articulo)
+    db.session.commit()'''
     #db.session.close()
+
+def init_db():
+    db.create_all()
+
+    # ---------------- Crear categorías ----------------
+    categorias = ["Mujer", "Hombre", "Niño", "Niña"]
+    cats = {}
+    for cat_name in categorias:
+        cat = Cat.query.filter_by(name=cat_name).first()
+        if not cat:
+            cat = Cat(name=cat_name)
+            db.session.add(cat)
+            db.session.commit()
+        cats[cat_name] = cat.id
+    print("Categorías listas:", cats)
+
+    # ---------------- Crear subcategorías ----------------
+    subcats_map = {}  # clave = (nombre, catid), valor = id
+    for nombre, icono, catid_num in lista_subcat_icons:
+        if catid_num == 1:
+            cat_name = "Mujer"
+            ruta = f"subcat_mujer_icon/{icono}"
+        elif catid_num == 2:
+            cat_name = "Hombre"
+            ruta = f"subcat_hombre_icon/{icono}"
+        else:
+            continue
+
+        actual_catid = cats[cat_name]
+        subcat = Subcat.query.filter_by(name=nombre, catid=actual_catid).first()
+        if not subcat:
+            subcat = Subcat(name=nombre, img_subcat=ruta, catid=actual_catid)
+            db.session.add(subcat)
+            db.session.commit()
+        subcats_map[(nombre, actual_catid)] = subcat.id
+    print("Subcategorías listas:", subcats_map)
+
+    # ---------------- Crear artículos ----------------
+    lista_mujer = ["1blusas","2faldas","3pantalon","4chaquetas_abrigos","5vestidos","6tbaño","7short","8conjuntos","9trabajo","10zapatos","11accesorios","12maquillaje"]
+    lista_hombre = ["1camisas","2pantalon","3abrigos","4chaquetas","5trajes","6tbaño","7gorras","8zapatos","9accesorios"]
+
+    for art in arts:
+        subcatid_idx = art[7]
+        if 1 <= subcatid_idx <= 12:
+            subcat_nombre = lista_mujer[subcatid_idx - 1]
+            cat_name = "Mujer"
+            ruta = f"1mujer/{subcat_nombre}/"
+        elif 13 <= subcatid_idx <= 21:
+            subcat_nombre = lista_hombre[subcatid_idx - 13]
+            cat_name = "Hombre"
+            ruta = f"2hombre/{subcat_nombre}/"
+        else:
+            continue
+
+        catid_real = cats[cat_name]
+        subcat_real_id = subcats_map.get((subcat_nombre, catid_real))
+        if not subcat_real_id:
+            print(f"Subcategoría {subcat_nombre} no existe, saltando artículo {art[0]}")
+            continue
+
+        img1, img2, img3 = ruta + art[1], ruta + art[2], ruta + art[3]
+
+        if not Articulos.query.filter_by(img1=img1).first():
+            articulo = Articulos(
+                subcatid=subcat_real_id,
+                name=art[0],
+                precio=art[4],
+                info=art[5],
+                img1=img1,
+                img2=img2,
+                img3=img3,
+                stock=art[6]
+            )
+            db.session.add(articulo)
+    db.session.commit()
+    print("Artículos insertados correctamente")
+
+
 
 """
 Cuando el usuario finaliza su compra, puedes usar este método para agregar los productos al pedido y guardarlos:
