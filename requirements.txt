@@ -7,7 +7,7 @@ werkzeug
 stripe
 reportlab
 pymysql
-#psycopg2
+psycopg2
 #mysqlclient
 #gunicorn
 #psycopg2-binary
