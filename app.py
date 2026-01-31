@@ -1,8 +1,7 @@
 from imports import *
 #from modelo5 import *
-#load_dotenv()
-app = Flask(__name__, static_folder="static", template_folder="templates")
 load_dotenv()
+app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.getenv("SECRET_KEY")
 #app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@localhost/render1"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://deybi10x:bahia@deybix.mysql.pythonanywhere-services.com/deybix$bahia'
@@ -68,6 +67,6 @@ def handle_csrf_error(e):
     #app.run(host='127.0.0.1', port=5008, debug=True)
 
 if __name__ == "__main__":
-    #port = int(os.environ.get("PORT", 5002))
-    port = int(os.getenv("PORT", 5002))
+    port = int(os.environ.get("PORT", 5002))
+    #port = int(os.getenv("PORT", 5002))
     app.run(host="0.0.0.0", port=port, debug=True)
