@@ -5,15 +5,16 @@ from modelo5 import *
 #if os.path.exists(".env"):
 #    load_dotenv()
 app = Flask(__name__, static_folder="static", template_folder="templates")
-#app.secret_key = os.getenv("SECRET_KEY")
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
-app.secret_key = os.getenv("A0Zr98j/3yX R~XHH!jmN]LWX/,?RT")
+app.secret_key = os.getenv("SECRET_KEY")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+#app.secret_key = os.getenv("A0Zr98j/3yX R~XHH!jmN]LWX/,?RT")
+
 #app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@localhost/render1"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://deybi10x:bahia@deybix.mysql.pythonanywhere-services.com/deybix$bahia'
 ##db=pymysql.connect(host="deybi10x.mysql.pythonanywhere-services.com",user="deybi10x",password="zzzzxxxx",database="deybi10x$contactos")
 #SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("postgres://bahia_user:lzfll0pWQF2Gm2l2DbiOXzgeCZ4y0sp6@dpg-d5uoqcfpm1nc73c1kg4g-a:5432/bahia")
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("postgres://bahia_user:lzfll0pWQF2Gm2l2DbiOXzgeCZ4y0sp6@dpg-d5uoqcfpm1nc73c1kg4g-a:5432/bahia")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
@@ -75,4 +76,4 @@ def handle_csrf_error(e):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5003))
     #port = int(os.getenv("PORT", 5002))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=False)
