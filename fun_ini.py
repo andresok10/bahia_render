@@ -1,5 +1,5 @@
 from imports import *
-#from modelo5 import *
+from modelo5 import *
 from decimal import Decimal, ROUND_HALF_UP # 4242424242424242  02/29 895
 
 app1 = Blueprint('fun_ini', __name__)    #<b>{{ session.carrito|length }}</b>

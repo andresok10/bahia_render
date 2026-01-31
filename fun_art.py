@@ -1,5 +1,5 @@
 from imports import *
-#from modelo5 import *
+from modelo5 import *
 
 #app2 = Blueprint('fun_art', __name__, url_prefix="")
 app2 = Blueprint('fun_art', __name__)

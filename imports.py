@@ -31,7 +31,7 @@ import stripe
 from flask_wtf.csrf import CSRFProtect, CSRFError   #from flask_wtf import FlaskForm,CSRFProtect ## pip install Flask-WTF
 #from flask_wtf.csrf import CSRFError
 
-from modelo5 import db, init_db, Usuario, Cat, Subcat, Articulos, Pedido
+#from modelo5 import db, init_db, Usuario, Cat, Subcat, Articulos, Pedido
 #from modelo5 import *
 # Esto es para usar JSON en la base de datos (requiere PostgreSQL o base de datos compatible)
 #from sqlalchemy.dialects.postgresql import JSON
