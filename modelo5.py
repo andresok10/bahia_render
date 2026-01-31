@@ -175,6 +175,7 @@ def init_db():
     #    if not cat.query.filter_by(nombre=x).first():
     #        db.session.add(cat(nombre=x))
     #db.session.commit()  # importante antes de agregar Subcat
+
     cat = Cat.query.filter_by(name="Mujer").first()
     if not cat:
         cat = Cat(name="Mujer")
@@ -254,7 +255,7 @@ def init_db():
     db.session.commit()
     #db.session.close()
 
-def init_db():
+'''def init_db():
     #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
     #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
     db.create_all()
@@ -335,7 +336,7 @@ def init_db():
             )
             db.session.add(articulo)
     db.session.commit()
-    print("Artículos insertados correctamente")
+    print("Artículos insertados correctamente")'''
 
 """
 Cuando el usuario finaliza su compra, puedes usar este método para agregar los productos al pedido y guardarlos:
