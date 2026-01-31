@@ -158,17 +158,17 @@ arts = [
 ]
 #print(len(arts))
 
-'''def init_db():
-    # Contar registros en la tabla Cat
-    if Cat.query.count() > 0:
-        print("La tabla Cat tiene datos")
-    else:
-        print("La tabla Cat está vacía")
+def init_db():
     #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
     #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
     #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
     #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
     db.create_all()
+    # Contar registros en la tabla Cat
+    if Cat.query.count() > 0:
+        print("La tabla Cat tiene datos")
+    else:
+        print("La tabla Cat está vacía")
 
     #[db.session.add(Cat(name=x)) for x in ["mujer", "hombre", "niño", "niña"] if not Cat.query.filter_by(name=x).first()]
     #for x in ["mujer", "hombre", "niño", "niña"]:
@@ -251,18 +251,7 @@ arts = [
                     subcatid=subcatid
                 )
             )
-            articulo = Articulos(
-                subcatid=subcat.id,
-                name="ok1",
-                precio=10.22,
-                info="xxx",
-                img1="1mujer/1blusas/blusa1.1.webp",
-                img2="1mujer/1blusas/blusa1.2.webp",
-                img3="1mujer/1blusas/blusa3.jpg",
-                stock=2
-            )
-            db.session.add(articulo)
-    db.session.commit()'''
+    db.session.commit()
     #db.session.close()
 
 def init_db():
