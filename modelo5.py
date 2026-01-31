@@ -6,7 +6,7 @@ db = SQLAlchemy()
 
 class Usuario(db.Model):
     id = Column(Integer, autoincrement=True, primary_key=True)
-    ced_ruc = Column(String(20), nullable=True)  # Cedula o RUC
+    ced_ruc = Column(String(13), nullable=True)  # Cedula o RUC
     name = Column(String(30), nullable=False)       # Nombre o Razón Social
     user = Column(String(30), nullable=False, unique=True)
     passs = Column(String(200), nullable=False)
@@ -171,16 +171,17 @@ def init_db():
         print("La tabla Cat está vacía")
 
     #[db.session.add(Cat(name=x)) for x in ["mujer", "hombre", "niño", "niña"] if not Cat.query.filter_by(name=x).first()]
-    #for x in ["mujer", "hombre", "niño", "niña"]:
-    #    if not cat.query.filter_by(nombre=x).first():
-    #        db.session.add(cat(nombre=x))
+    for x in ["mujer", "hombre", "niño", "niña"]:
+        if not Cat.query.filter_by(nombre=x).first():
+            db.session.add(Cat(nombre=x))
     #db.session.commit()  # importante antes de agregar Subcat
 
-    cat = Cat.query.filter_by(name="Mujer").first()
-    if not cat:
-        cat = Cat(name="Mujer")
-        db.session.add(cat)
-        db.session.commit()
+    #cat = Cat.query.filter_by(name="Mujer").first()
+    #if not cat:
+    #    cat = Cat(name="Mujer")
+    #    db.session.add(cat)
+    #    db.session.commit()
+
     ####################################################
     lista_usuarios =[
         ["09991" ,"dave1x","dave1","qqww","ok1@gmail.com",1],
@@ -189,7 +190,8 @@ def init_db():
     for xx in lista_usuarios:
         if not Usuario.query.filter_by(ced_ruc=xx[0]).first():
             db.session.add(Usuario(ced_ruc=xx[0], name=xx[1], user=xx[2], passs=xx[3], email=xx[4], admin=xx[5]))
-    db.session.commit()
+    #db.session.commit()
+
     ##########################################################
     for nombre, icono, catid in lista_subcat_icons:
         # ruta base por categoría
@@ -202,28 +204,7 @@ def init_db():
 
         if not Subcat.query.filter_by(name=nombre, catid=catid).first():
             db.session.add(Subcat(name=nombre,img_subcat=ruta,catid=catid))
-    db.session.commit()
-
-    subcat = Subcat.query.filter_by(name="Blusas", catid=cat.id).first()
-    cats = {c.name: c.id for c in Cat.query.all()}
-
-    for nombre, icono, catid in lista_subcat_icons:
-        # traducir catid numérico a nombre de categoría
-        if catid == 1:
-            cat_name = "mujer"
-            ruta = f"subcat_mujer_icon/{icono}"
-        elif catid == 2:
-            cat_name = "hombre"
-            ruta = f"subcat_hombre_icon/{icono}"
-        else:
-            continue
-
-        actual_catid = cats[cat_name]  # ID real de la categoría
-
-        if not Subcat.query.filter_by(name=nombre, catid=actual_catid).first():
-            db.session.add(Subcat(name=nombre, img_subcat=ruta, catid=actual_catid))
-
-    db.session.commit()
+    #db.session.commit()
 
     ###################################################################
     lista_mujer = ["1blusas","2faldas","3pantalon","4chaquetas_abrigos","5vestidos","6tbaño","7short","8conjuntos","9trabajo","10zapatos","11accesorios","12maquillaje"]
@@ -254,6 +235,10 @@ def init_db():
             )
     db.session.commit()
     #db.session.close()
+    if Cat.query.count() > 0:
+        print("La tabla Cat tiene datos")
+    else:
+        print("La tabla Cat está vacía")
 
 '''def init_db():
     #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
