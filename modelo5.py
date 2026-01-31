@@ -266,6 +266,13 @@ arts = [
     #db.session.close()
 
 def init_db():
+    if Cat.query.count() > 0:
+        print("La tabla Cat tiene datos")
+    else:
+        print("La tabla Cat está vacía")
+
+    os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
+    os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
     db.create_all()
 
     # ---------------- Crear categorías ----------------
@@ -340,8 +347,6 @@ def init_db():
             db.session.add(articulo)
     db.session.commit()
     print("Artículos insertados correctamente")
-
-
 
 """
 Cuando el usuario finaliza su compra, puedes usar este método para agregar los productos al pedido y guardarlos:

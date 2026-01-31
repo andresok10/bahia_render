@@ -13,7 +13,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://deybi10x:bahia@deybix.mysql.pythonanywhere-services.com/deybix$bahia'
 ##db=pymysql.connect(host="deybi10x.mysql.pythonanywhere-services.com",user="deybi10x",password="zzzzxxxx",database="deybi10x$contactos")
 #SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("postgres://bahia_user:lzfll0pWQF2Gm2l2DbiOXzgeCZ4y0sp6@dpg-d5uoqcfpm1nc73c1kg4g-a:5432/bahia")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
