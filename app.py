@@ -20,10 +20,10 @@ db.init_app(app)
 csrf = CSRFProtect(app)
 
 with app.app_context():
-    if Cat.query.count() == 0:
-        init_db()
-    else:
-        print("Base de datos ya inicializada")
+    #if Cat.query.count() == 0:
+    init_db()
+    #else:
+    #    print("Base de datos ya inicializada")
     #init_db()
     total = Articulos.query.count()
     print("Registros en la BD:", total)
