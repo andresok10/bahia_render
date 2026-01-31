@@ -266,14 +266,14 @@ arts = [
     #db.session.close()
 
 def init_db():
+    #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
+    #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
+    db.create_all()
+
     if Cat.query.count() > 0:
         print("La tabla Cat tiene datos")
     else:
         print("La tabla Cat está vacía")
-
-    #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
-    #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
-    db.create_all()
 
     # ---------------- Crear categorías ----------------
     categorias = ["Mujer", "Hombre", "Niño", "Niña"]
