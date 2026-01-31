@@ -159,6 +159,11 @@ arts = [
 #print(len(arts))
 
 def init_db():
+    # Contar registros en la tabla Cat
+    if Cat.query.count() > 0:
+        print("La tabla Cat tiene datos")
+    else:
+        print("La tabla Cat está vacía")
     #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
     #os.system('mysql -u root -e "CREATE DATABASE IF NOT EXISTS render1;"')
     #os.system('mysql -u root -e "DROP DATABASE IF EXISTS render1;"')
@@ -180,7 +185,7 @@ def init_db():
             db.session.add(Usuario(ced_ruc=xx[0], name=xx[1], user=xx[2], passs=xx[3], email=xx[4], admin=xx[5]))
     db.session.commit()
     ##########################################################
-    for nombre, icono, catid in lista_subcat_icons:
+    '''for nombre, icono, catid in lista_subcat_icons:
         # ruta base por categoría
         if catid == 1:
             ruta = f"subcat_mujer_icon/{icono}"
@@ -191,7 +196,27 @@ def init_db():
 
         if not Subcat.query.filter_by(name=nombre, catid=catid).first():
             db.session.add(Subcat(name=nombre,img_subcat=ruta,catid=catid))
+    db.session.commit()'''
+    cats = {c.name: c.id for c in Cat.query.all()}
+
+    for nombre, icono, catid in lista_subcat_icons:
+        # traducir catid numérico a nombre de categoría
+        if catid == 1:
+            cat_name = "mujer"
+            ruta = f"subcat_mujer_icon/{icono}"
+        elif catid == 2:
+            cat_name = "hombre"
+            ruta = f"subcat_hombre_icon/{icono}"
+        else:
+            continue
+
+        actual_catid = cats[cat_name]  # ID real de la categoría
+
+        if not Subcat.query.filter_by(name=nombre, catid=actual_catid).first():
+            db.session.add(Subcat(name=nombre, img_subcat=ruta, catid=actual_catid))
+
     db.session.commit()
+
     ###################################################################
     lista_mujer = ["1blusas","2faldas","3pantalon","4chaquetas_abrigos","5vestidos","6tbaño","7short","8conjuntos","9trabajo","10zapatos","11accesorios","12maquillaje"]
     lista_hombre = ["1camisas","2pantalon","3abrigos","4chaquetas","5trajes","6tbaño","7gorras","8zapatos","9accesorios"]
