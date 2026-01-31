@@ -64,6 +64,10 @@ def before_request_func():
 def handle_csrf_error(e):
     return redirect(url_for('fun_ini.iniciox'))
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
     #app.run(host='127.0.0.1', port=5008, debug=True)
-    app.run(host='0.0.0.0', debug=True)
+
+if __name__ == "__main__":
+    #port = int(os.environ.get("PORT", 5002))
+    port = int(os.getenv("PORT", 5002))
+    app.run(host="0.0.0.0", port=port, debug=True)
