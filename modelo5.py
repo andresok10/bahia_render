@@ -12,7 +12,7 @@ class Usuario(db.Model):
     passs = Column(String(200), nullable=False)
     email = Column(String(200), nullable=False)
     #admin = Column(Boolean, default=False)
-    admin = Column(Integer, default=0)
+    admin = Column(Integer, default=False)
     #fecha = Column(DateTime, default=datetime.now)
     #fecha = Column(DateTime, default=datetime.today)
     def __repr__(self):
@@ -169,8 +169,8 @@ def init_db():
     #        db.session.add(cat(nombre=x))
     ####################################################
     lista_usuarios =[
-        ["09991" ,"dave1x","dave1","qqww","ok1@gmail.com",True],
-        ["09992" ,"dave2x","dave2","aass","ok2@gmail.com",False],
+        ["09991" ,"dave1x","dave1","qqww","ok1@gmail.com",1],
+        ["09992" ,"dave2x","dave2","aass","ok2@gmail.com",0],
     ]
     for xx in lista_usuarios:
         if not Usuario.query.filter_by(ced_ruc=xx[0]).first():
